@@ -2,7 +2,10 @@
 $allMessages = array(
         'en' => array(
 		'tohtml' => 'ToHTML',
+		'notEnabled' => 'Error: You have to set \'$wgToHTMLenable = true\' in LocalSettings.php to use this extension.',
 		'noParamGiven' => 'Error: No Parameter given.',
+		'parNotExists' => 'Error: $1 doesn\'t exist.',
+		'pageHeader'=> 'HTML-Version of [[$1]]:',
 	),
 	'de' => array(
 		'tohtml' => 'ToHTML',
