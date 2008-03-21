@@ -16,9 +16,9 @@ $wgHooks['LanguageGetSpecialPageAliases'][] = 'ToHTML_LocalizedPageName';
 $wgExtensionCredits['specialpage'][] = array (
 	'name' => 'ToHTML',
 	'description' => 'Converts a given page to its representation in HTML, with a few tweaks for a drupal-system. Note that this is highly customized for our usage.',
-	'version' => '1.0-1.11.0',
+	'version' => '1.0.1-1.12.0',
 	'author' => 'Mathias Ertl',
-	'url' => 'http://pluto.htu.tuwien.ac.at/devel_wiki/index.php/ToHTML',
+	'url' => 'http://pluto.htu.tuwien.ac.at/devel_wiki/ToHTML',
 );
 
 function ToHTML_LocalizedPageName( &$specialPageArray, $code) {
