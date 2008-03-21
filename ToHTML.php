@@ -11,7 +11,7 @@ EOT;
 $wgAutoloadClasses['ToHTML'] = dirname(__FILE__) . '/SpecialToHTML.php';
 $wgSpecialPages[ 'ToHTML'] = 'ToHTML';
 $wgHooks['LoadAllMessages'][] = 'ToHTML::loadMessages';
-$wgHooks['LangugeGetSpecialPageAliases'][] = 'ToHTML_LocalizedPageName';
+$wgHooks['LanguageGetSpecialPageAliases'][] = 'ToHTML_LocalizedPageName';
 
 $wgExtensionCredits['specialpage'][] = array (
 	'name' => 'ToHTML',
