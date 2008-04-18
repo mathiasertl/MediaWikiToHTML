@@ -9,12 +9,13 @@ function wfSpecialToHTML( $par ) {
 }
 
 class ToHTML extends SpecialPage {
+	
 	/**
 	 * constructor.
 	 */
 	function ToHTML() {
-		self::loadMessages();
 		SpecialPage::SpecialPage( 'ToHTML' );
+		wfLoadExtensionMessages( 'ToHTML' );
 	}
 
 	/**
@@ -22,12 +23,7 @@ class ToHTML extends SpecialPage {
 	 */
 	function execute( $par ) {
 		global $wgOut, $wgParser;
-		global $wgToHTMLenable;
 		$this->setHeaders();
-		if ( ! $wgToHTMLenable ) {
-			$wgOut->addWikiText( wfMsg('notEnabled' ));
-			return true;
-		}
 
 		// create title object from par, throw error if no par
 		if ( $par ) {
@@ -117,23 +113,6 @@ class ToHTML extends SpecialPage {
 #		$wgOut->addHTML ( $htmlCode );
 
 
-		return true;
-	}
-
-	/**
-	 * internationalization
-	 */
-	function loadMessages() {
-		static $messagesLoaded = false;
-		global $wgMessageCache;
-		if ( $messagesLoaded )
-			return true;
-		$messagesLoaded = true;
-
-		require( dirname( __FILE__ ) . '/ToHTML.i18n.php' );
-		foreach ( $allMessages as $lang => $langMessages ) {
-			$wgMessageCache->addMessages( $langMessages, $lang );
-		}
 		return true;
 	}
 }
