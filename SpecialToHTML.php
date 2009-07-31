@@ -110,7 +110,7 @@ class ToHTML extends SpecialPage {
 		$htmlCode = preg_replace( '/(<h[1-5]>) *(.*?) *?(<\/h[1-5]>)/', '$1$2$3', $htmlCode );
 		
 		if ( $wgRequest->getText( 'action' ) == "raw" ) {
-			print( $htmlCode );
+			print( htmlspecialchars( $htmlCode ) );
 			die();
 		} else {
 			$wgOut->addWikiText( '<pre>' . $htmlCode . '</pre>');
