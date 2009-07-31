@@ -22,7 +22,7 @@ class ToHTML extends SpecialPage {
 	 * main worker-function
 	 */
 	function execute( $par ) {
-		global $wgOut, $wgParser;
+		global $wgOut, $wgParser, $wgRequest;
 		$this->setHeaders();
 
 		// create title object from par, throw error if no par
@@ -108,8 +108,13 @@ class ToHTML extends SpecialPage {
 		
 		// get rid of some spaces
 		$htmlCode = preg_replace( '/(<h[1-5]>) *(.*?) *?(<\/h[1-5]>)/', '$1$2$3', $htmlCode );
-
-		$wgOut->addWikiText( '<pre>' . $htmlCode . '</pre>');
+		
+		if ( $wgRequest->getText( 'action' ) == "raw" ) {
+			print( $htmlCode );
+			die();
+		} else {
+			$wgOut->addWikiText( '<pre>' . $htmlCode . '</pre>');
+		}
 #		$wgOut->addHTML ( $htmlCode );
 
 
