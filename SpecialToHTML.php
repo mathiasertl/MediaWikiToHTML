@@ -56,7 +56,7 @@ class ToHTML extends SpecialPage {
 		$content = $wgParser->preprocess( $content, $title, $parserOptions );
 		$parserOutput = $wgParser->parse( $content, $title, $parserOptions );
 
-		$footerText = "\n<p>Diese Seite wurde auf <a href=\"http://vowi.fsinf.at/wiki/" . $title->getPrefixedText() . '">vowi.fsinf.at</a> geschrieben und steht unter der <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation Licence 1.2</a>. Der Text entspricht der <a href="http://vowi.fsinf.at/wiki?title=' . $title->getPrefixedText() . '&oldid=' . $title->getLatestRevID() . '">Revision ' . $title->getLatestRevID() . "</a>.</p>\n";
+		$footerText = "\n<p>Diese Seite wurde auf <a href=\"http://vowi.fsinf.at/wiki/" . $title->getPrefixedText() . '">vowi.fsinf.at</a> geschrieben und steht unter der <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation Licence 1.3</a>. Der Text entspricht der <a href="http://vowi.fsinf.at/wiki?title=' . $title->getPrefixedText() . '&oldid=' . $title->getLatestRevID() . '">Revision ' . $title->getLatestRevID() . "</a>.</p>\n";
 		$footerPreProcess = $wgParser->preprocess( $navBlock[0], $title, $parserOptions );
 		$footerParserOutput = $wgParser->parse( $footerPreProcess, $title, $parserOptions );
 		$footerCode = $footerText . $footerParserOutput->getText();
@@ -84,6 +84,8 @@ class ToHTML extends SpecialPage {
 		$htmlCode = preg_replace( '/href="\/wiki\/FAQ/', 'href="/infos/FAQ', $htmlCode );
 		// other internal mediawiki-links have to include the URL of the wiki
 		$htmlCode = preg_replace( '/href="\/wiki/', 'href="http://vowi.fsinf.at/wiki', $htmlCode );
+		// direct file links got to vowi
+		$htmlCode = preg_replace( '/href="\/images/', 'href="http://vowi.fsinf.at/images', $htmlCode );
 		// links to fsinf.at can now be relative:
 		$htmlCode = preg_replace( '/href="http:\/\/(www.)?fsinf.at([^"])/', 'href="$2', $htmlCode );
 	-	// get rid of nofollow:
@@ -98,13 +100,6 @@ class ToHTML extends SpecialPage {
 			$match = preg_quote( $match, '/' );
 			$htmlCode = preg_replace( '/' . $match . '/', $replacement, $htmlCode );
 		}
-
-		// magic!
-		$tocBlockBegin = '(<div class="book-navigation"><div class="page-links clear-block">)';
-		$tocBlockEnd = '(<\/div><\/div>)';
-		$tocLink = '(<a href="[^"]*?")(.*?<\/a>)';
-		$tocRegEx = '/' . $tocBlockBegin . $tocLink . '<b>' . $tocLink . '<\/b>' . $tocLink . $tocBlockEnd . '/';
-		$htmlCode = preg_replace( $tocRegEx, '$1$2 class="page-previous"$3<b>$4 class="page-up"$5</b>$6 class="page-next"$7$8<p />', $htmlCode );
 		
 		// get rid of some spaces
 		$htmlCode = preg_replace( '/(<h[1-5]>) *(.*?) *?(<\/h[1-5]>)/', '$1$2$3', $htmlCode );
