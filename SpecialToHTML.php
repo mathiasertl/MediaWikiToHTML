@@ -67,6 +67,9 @@ class ToHTML extends SpecialPage {
 		// insert <!--break--> tag, or drupal will break in the middle of TOC!
 		$htmlCode = preg_replace( '/(<table id="toc".*?)<\/table>/s', '$1</table><!--break-->', $htmlCode );
 		
+		// turn <span>s with an ID to <a>nchors
+		$htmlCode = preg_replace( '/<span [^>]*id="(.*?)"[^>]*>(.*?)<\/span>/', '<a id="$1">$2</a>', $htmlCode );
+		
 		// eliminate <span> tags
 		$htmlCode = preg_replace( '/<span[^>]*>/', '', $htmlCode );	
 		$htmlCode = preg_replace( '/<\/span>/', '', $htmlCode );
@@ -88,7 +91,7 @@ class ToHTML extends SpecialPage {
 		$htmlCode = preg_replace( '/href="\/images/', 'href="http://vowi.fsinf.at/images', $htmlCode );
 		// links to fsinf.at can now be relative:
 		$htmlCode = preg_replace( '/href="http:\/\/(www.)?fsinf.at([^"])/', 'href="$2', $htmlCode );
-	-	// get rid of nofollow:
+		// get rid of nofollow:
 		$htmlCode = preg_replace( '/ rel="nofollow"/', '', $htmlCode );
 
 		// fix spaces in links - only for fsinf.at links!:
