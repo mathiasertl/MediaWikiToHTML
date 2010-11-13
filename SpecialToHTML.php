@@ -67,12 +67,16 @@ class ToHTML extends SpecialPage {
 		// insert <!--break--> tag, or drupal will break in the middle of TOC!
 		$htmlCode = preg_replace( '/(<table id="toc".*?)<\/table>/s', '$1</table><!--break-->', $htmlCode );
 		
-		// turn <span>s with an ID to <a>nchors
-		$htmlCode = preg_replace( '/<span [^>]*id="(.*?)"[^>]*>(.*?)<\/span>/', '<a id="$1">$2</a>', $htmlCode );
+		// turn <span>s with an ID to "<t:span>"s, removing other attributes
+		$htmlCode = preg_replace( '/<span [^>]*id="(.*?)"[^>]*>(.*?)<\/span>/', '<t:span id="$1">$2</t:span>', $htmlCode );
 		
 		// eliminate <span> tags
 		$htmlCode = preg_replace( '/<span[^>]*>/', '', $htmlCode );	
 		$htmlCode = preg_replace( '/<\/span>/', '', $htmlCode );
+		
+		// turn <t:span>s back into <span>s
+		$htmlCode = preg_replace( '/<t:span/', '<span', $htmlCode );
+		$htmlCode = preg_replace( '/<\/t:span>/', '</span>', $htmlCode );
 
 		// create a drupal-TOC:
 		$htmlCode = preg_replace( '/<div id="toctitle"><h2>(.*?)<\/h2><\/div>/', '<b>$1</b>', $htmlCode );
