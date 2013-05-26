@@ -1,22 +1,9 @@
 <?php
 
-/**
- * Entry point
- */
-function wfSpecialToHTML( $par ) {
-	$page = new ToHTML();
-	$page->execute($par);
-}
-
-class ToHTML extends SpecialPage {
-	
-	/**
-	 * constructor.
-	 */
-	function ToHTML() {
-		SpecialPage::SpecialPage( 'ToHTML' );
-		wfLoadExtensionMessages( 'ToHTML' );
-	}
+class SpecialToHTML extends SpecialPage {
+    function __construct() {
+        parent::__construct('ToHTML');
+    }
 
 	/**
 	 * main worker-function
@@ -44,7 +31,7 @@ class ToHTML extends SpecialPage {
 		$article = new Article( $title );
 		$article->loadContent();
 		$content = "__NOEDITSECTION__\n" . $article->getContent();
-		
+
 		// delete banner on top:
 		$content = preg_replace( '/{{FAQinfo}}/', '', $content );
 		//copy forward/backward banner to bottom:
@@ -66,14 +53,14 @@ class ToHTML extends SpecialPage {
 
 		// insert <!--break--> tag, or drupal will break in the middle of TOC!
 		$htmlCode = preg_replace( '/(<table id="toc".*?)<\/table>/s', '$1</table><!--break-->', $htmlCode );
-		
+
 		// turn <span>s with an ID to "<t:span>"s, removing other attributes
 		$htmlCode = preg_replace( '/<span [^>]*id="(.*?)"[^>]*>(.*?)<\/span>/', '<t:span id="$1">$2</t:span>', $htmlCode );
-		
+
 		// eliminate <span> tags
-		$htmlCode = preg_replace( '/<span[^>]*>/', '', $htmlCode );	
+		$htmlCode = preg_replace( '/<span[^>]*>/', '', $htmlCode );
 		$htmlCode = preg_replace( '/<\/span>/', '', $htmlCode );
-		
+
 		// turn <t:span>s back into <span>s
 		$htmlCode = preg_replace( '/<t:span/', '<span', $htmlCode );
 		$htmlCode = preg_replace( '/<\/t:span>/', '</span>', $htmlCode );
@@ -107,10 +94,10 @@ class ToHTML extends SpecialPage {
 			$match = preg_quote( $match, '/' );
 			$htmlCode = preg_replace( '/' . $match . '/', $replacement, $htmlCode );
 		}
-		
+
 		// get rid of some spaces
 		$htmlCode = preg_replace( '/(<h[1-5]>) *(.*?) *?(<\/h[1-5]>)/', '$1$2$3', $htmlCode );
-		
+
 		if ( $wgRequest->getText( 'action' ) == "raw" ) {
 			print( htmlspecialchars( $htmlCode ) );
 			die();
