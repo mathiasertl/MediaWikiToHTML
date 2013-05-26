@@ -17,7 +17,7 @@ $wgExtensionCredits['specialpage'][] = array (
     'path' => __file__,
 	'name' => 'ToHTML',
 	'description' => 'Converts a given page to its representation in HTML, with a few tweaks for a drupal-system. Note that this is highly customized for our usage.',
-	'version' => '1.0.4-1.15.1',
+	'version' => '1.0.5-1.21.0',
 	'author' => 'Mathias Ertl',
 	'url' => 'http://fs.fsinf.at/wiki/ToHTML',
 );
